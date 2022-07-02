@@ -4,9 +4,9 @@
         <input type="hidden" name="id" id="id">
         <div class="form-group">
             <div class="form-line">
-                <label for="name">Tag</label>
+                <label for="name">Name</label>
                 <input type="text" name="name" id="name" class="form-control"
-                    placeholder="Tag">
+                    placeholder="Name">
             </div>
         </div>
         <div class="modal-footer">
