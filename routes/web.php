@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\Backend\KasirController;
+use App\Http\Controllers\Backend\HasilHarianController;
+use App\Http\Controllers\Backend\HasilBulananController;
+use App\Http\Controllers\Backend\Master_Data\PegawaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExampleController;
 
@@ -16,33 +21,25 @@ use App\Http\Controllers\ExampleController;
 
 Route::prefix('admin')->group(function () {
     // example
-    Route::get('/dashboard', function () {
-        return view('example.dashboard');
-    })->name('dashboard');
-    Route::get('/form', [ExampleController::class, 'index'])->name('form');
-    Route::get('/formjquery', [ExampleController::class, 'viewFormJquery'])->name('form.jquery');
-    Route::post('/form/store', [ExampleController::class, 'store'])->name('form.store');
-    Route::post('/form/store/jquery', [ExampleController::class, 'storejquery'])->name('form.jquery.store');
-    Route::get('/quill', function () {
-        return view('example.quill');
-    })->name('quill');
-    Route::get('/datatables',[ExampleController::class, 'view'])->name('datatables');
-    Route::get('/chartapexjs', function () {
-        return view('example.chart');
-    })->name('chartapexjs');
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard.index');
+    Route::get('/dashboard/bulanan', [DashboardController::class,'bulanan'])->name('dashboard.bulanan');
+
     // end example
-    Route::get('rat/list', [App\Http\Controllers\Admin\ManajemenPerencanaan\RATController::class,'list'])->name('rat.list');
-    // do coding
-    Route::resource('assign-assessment',App\Http\Controllers\Admin\RiskAssessment\AssignAssessmentController::class);
-    Route::resource('assessment',App\Http\Controllers\Admin\RiskAssessment\AssessmentController::class);
-    Route::resource('review-pka',App\Http\Controllers\Admin\RiskAssessment\ReviewPKAController::class);
-    Route::resource('rat',App\Http\Controllers\Admin\ManajemenPerencanaan\RATController::class);
-    Route::resource('rap',App\Http\Controllers\Admin\ManajemenPerencanaan\RAPController::class);
-    Route::resource('perencanaan-audit',App\Http\Controllers\Admin\ManajemenAudit\PerencanaanAuditController::class);
+    //do coding
+    Route::resource('kasir', KasirController::class);
+    Route::resource('pegawai', PegawaiController::class);
+    Route::get('hasil-harian', [HasilHarianController::class,'index'])->name('hasil-harian.index');
+    Route::get('hasil-harian/print', [HasilHarianController::class, 'print'])->name('hasil-harian.print');
+    Route::get('hasil-bulanan', [HasilBulananController::class,'index'])->name('hasil-bulanan.index');
+    Route::get('hasil-bulanan/print', [HasilBulananController::class, 'print'])->name('hasil-bulanan.print');
 });
 
 Route::get('/dashboard', function () {
     return view('example.dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('',function () {
+    return view('frontend.home.index');
+});
 
 require __DIR__.'/auth.php';
